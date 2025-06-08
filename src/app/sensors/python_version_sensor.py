@@ -21,6 +21,8 @@ class VersionInfo(BaseModel):
 
 class PythonVersionSensor(SensorABC[VersionInfo]):
 
+    title = 'Python version'
+
     @staticmethod
     def value() -> VersionInfo:
         return VersionInfo.model_validate(sys.version_info)

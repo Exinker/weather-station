@@ -1,15 +1,14 @@
-import psutil
-
-import pytest
-
-from app.sensors.cpu_load_sensor import CPULoadSensor
+from app.sensors.cpu_load_sensor import (
+    CPULoadSensor,
+    LoadInfo,
+)
 
 
 def test_format(
-    cpu_load: float,
+    cpu_load: LoadInfo,
 ):
     sensor = CPULoadSensor()
 
-    assert str(sensor) == 'CPU load: {value:.2f} %'.format(
-        value=cpu_load,
+    assert str(sensor) == '{value:.2f} %'.format(
+        value=cpu_load.percent,
     )

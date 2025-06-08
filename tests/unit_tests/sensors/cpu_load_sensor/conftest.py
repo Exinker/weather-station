@@ -1,4 +1,4 @@
-import psutil
+from app.sensors.cpu_load_sensor import LoadInfo
 
 import pytest
 
@@ -7,17 +7,19 @@ import pytest
 def cpu_load(
     faker,
     request,
-) -> float:
+) -> LoadInfo:
 
     fields = dict(min_value=0, max_value=100)
     fields.update(**getattr(request, 'param', {}))
 
-    return faker.pyfloat(**fields)
+    return LoadInfo(
+        percent=faker.pyfloat(**fields),
+    )
 
 
 @pytest.fixture(scope='function', autouse=True)
 def setup(
-    cpu_load: float,
+    cpu_load: LoadInfo,
     monkeypatch: pytest.MonkeyPatch,
 ):
-    monkeypatch.setattr('psutil.cpu_percent', lambda *args, **kwargs: cpu_load)
+    monkeypatch.setattr('psutil.cpu_percent', lambda *args, **kwargs: cpu_load.percent)

@@ -19,6 +19,8 @@ class MemoryInfo(BaseModel):
 
 class MemoryAvailableSensor(SensorABC[MemoryInfo]):
 
+    title = 'Memory avaliable'
+
     @classmethod
     def value(cls) -> MemoryInfo:
         return MemoryInfo.model_validate(psutil.virtual_memory())
@@ -26,7 +28,7 @@ class MemoryAvailableSensor(SensorABC[MemoryInfo]):
     @classmethod
     def format(cls, value: MemoryInfo) -> str:
 
-        return 'Memory avaliable: {available}MB/{total}MB ({percent:.1f} %)'.format(
+        return '{available} MB/{total} MB ({percent:.1f} %)'.format(
             total=int(value.total / 2024**2),
             available=int(value.available / 2024**2),
             percent=value.percent,
