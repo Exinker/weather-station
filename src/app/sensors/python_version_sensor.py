@@ -1,16 +1,29 @@
 import sys
-from typing import TypeAlias
+from typing import Literal
+
+from pydantic import BaseModel, ConfigDict
 
 from app.sensors.sensor import SensorABC
 
-VersionInfo: TypeAlias = tuple[int, int, int, str, int]
+
+class VersionInfo(BaseModel):
+
+    major: int
+    minor: int
+    micro: int
+    releaselevel: Literal['alpha', 'beta', 'final']
+    serial: int
+
+    model_config = ConfigDict(
+        from_attributes=True,
+    )
 
 
 class PythonVersionSensor(SensorABC[VersionInfo]):
 
     @staticmethod
     def value() -> VersionInfo:
-        return sys.version_info
+        return VersionInfo.model_validate(sys.version_info)
 
     @classmethod
     def format(cls, value: VersionInfo) -> str:

@@ -1,6 +1,6 @@
 import pytest
 
-from tests.fakes.sensors.python_version import VersionInfo
+from app.sensors.python_version_sensor import VersionInfo
 
 
 @pytest.fixture
@@ -46,12 +46,4 @@ def version_info(
     )
     fields.update(**getattr(request, 'param', {}))
 
-    return VersionInfo(**fields)
-
-
-@pytest.fixture(scope='function', autouse=True)
-def setup(
-    version_info: VersionInfo,
-    monkeypatch: pytest.MonkeyPatch,
-):
-    monkeypatch.setattr('sys.version_info', version_info)
+    return VersionInfo.model_validate(fields)

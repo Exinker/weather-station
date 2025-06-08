@@ -8,7 +8,11 @@ version = "0.1.1"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "psutil>=7.0.0",
+    "pydantic>=2.11.5",
+    "pydantic-settings>=2.9.1",
+]
 
 [dependency-groups]
 linting = [
@@ -17,6 +21,7 @@ linting = [
 ]
 testing = [
     "pytest>=8.3.5",
+    "pytest-coverage>=0.0",
     "pytest-faker>=2.0.0",
 ]
 dev = [

@@ -1,7 +1,17 @@
 import pytest
 
-from app.sensors.python_version_sensor import PythonVersionSensor
-from tests.fakes.sensors.python_version import VersionInfo
+from app.sensors.python_version_sensor import (
+    PythonVersionSensor,
+    VersionInfo,
+)
+
+
+@pytest.fixture(scope='function', autouse=True)
+def setup(
+    version_info: VersionInfo,
+    monkeypatch: pytest.MonkeyPatch,
+):
+    monkeypatch.setattr('sys.version_info', version_info)
 
 
 def test_format(
